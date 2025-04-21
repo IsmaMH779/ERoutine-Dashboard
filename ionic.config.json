@@ -1,0 +1,7 @@
+{
+  "name": "ERoutineDashboard",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite"
+}
