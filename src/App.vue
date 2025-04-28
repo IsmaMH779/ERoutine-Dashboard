@@ -1,5 +1,11 @@
 <template>
   <ion-app>
+    <div id="background-container">
+      <!-- Fondo de partículas -->
+      <div id="tsparticles"></div>
+    </div>
+
+    <!-- Split Pane para menú lateral -->
     <ion-split-pane content-id="main-content">
       <ion-menu content-id="main-content" type="overlay" width="300px">
         <ion-content>
@@ -8,7 +14,7 @@
             <ion-note>Dashboard</ion-note>
 
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
-              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
+              <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" :class="{ selected: selectedIndex === i }">
                 <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
@@ -16,10 +22,13 @@
           </ion-list>
         </ion-content>
       </ion-menu>
+
+      <!-- Router Outlet para las diferentes páginas -->
       <ion-router-outlet id="main-content"></ion-router-outlet>
     </ion-split-pane>
   </ion-app>
 </template>
+
 
 <script setup lang="ts">
 import {
@@ -36,54 +45,135 @@ import {
   IonRouterOutlet,
   IonSplitPane,
 } from '@ionic/vue';
-import { ref } from 'vue';
-import {
-  archiveOutline,
-  archiveSharp,
-  bookmarkOutline,
-  bookmarkSharp,
-  heartOutline,
-  heartSharp,
-  mailOutline,
-  mailSharp,
-  paperPlaneOutline,
-  paperPlaneSharp,
-  trashOutline,
-  trashSharp,
-  warningOutline,
-  warningSharp,
-} from 'ionicons/icons';
+import { addIcons } from 'ionicons';
+import { mailSharp, mailOutline, paperPlaneSharp, paperPlaneOutline } from 'ionicons/icons';
+
+import { ref, onMounted } from 'vue';
+import { tsParticles } from "tsparticles-engine";
+import { loadSlim } from "tsparticles-slim";
+
+// Registrar los iconos
+addIcons({
+  'mail-sharp': mailSharp,
+  'mail-outline': mailOutline,
+  'paper-plane-sharp': paperPlaneSharp,
+  'paper-plane-outline': paperPlaneOutline
+});
 
 const selectedIndex = ref(0);
 const appPages = [
   {
     title: 'Negocio',
     url: '/app/negocio',
-    iosIcon: mailOutline,
-    mdIcon: mailSharp,
+    iosIcon: 'mail-outline',
+    mdIcon: 'mail-sharp',
   },
   {
     title: 'Tecnico',
     url: '/app/tecnico',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
+    iosIcon: 'paper-plane-outline',
+    mdIcon: 'paper-plane-sharp',
   },
   {
     title: 'KPIs',
     url: '/app/kpi',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp,
+    iosIcon: 'paper-plane-outline',
+    mdIcon: 'paper-plane-sharp',
   }
 ];
-const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
 
-const path = window.location.pathname.split('folder/')[1];
-if (path !== undefined) {
-  selectedIndex.value = appPages.findIndex((page) => page.title.toLowerCase() === path.toLowerCase());
-}
+// Función para cargar las partículas
+const loadParticles = async () => {
+  try {
+    await loadSlim(tsParticles);
+
+    await tsParticles.load("tsparticles", {
+      background: {
+        color: {
+          value: "#505050",
+        },
+      },
+      fpsLimit: 60,
+      interactivity: {
+        events: {
+          onClick: {
+            enable: true,
+            mode: "push",
+          },
+          resize: true,
+        },
+      },
+      particles: {
+        color: {
+          value: "#F2A920",
+        },
+        links: {
+          enable: true,
+          distance: 150,
+          color: "#F2A920",
+          opacity: 0.5,
+          width: 1,
+        },
+        collisions: {
+          enable: false,
+        },
+        move: {
+          direction: "none",
+          enable: true,
+          outModes: {
+            default: "bounce",
+          },
+          random: true,
+          speed: 0.5,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+            area: 800,
+          },
+          value: 80,
+        },
+        opacity: {
+          value: 0.8,
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          value: { min: 1, max: 4 },
+        },
+      },
+      detectRetina: true,
+    });
+  } catch (error) {
+    console.error("Error al cargar partículas:", error);
+  }
+};
+
+onMounted(() => {
+  loadParticles();
+});
 </script>
 
 <style scoped>
+/* Partículas como fondo */
+#background-container {
+  position: fixed; /* Ojo: fixed, no absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Debajo del contenido */
+  pointer-events: none; /* Muy importante: para que no bloquee clicks */
+}
+
+#tsparticles {
+  width: 100%;
+  height: 100%;
+}
+
+
 ion-menu ion-content {
   --background: #F2A920;
 }
@@ -164,15 +254,14 @@ ion-item.selected {
 ion-item {
   --background: #F2A920;
 }
-/* Establece el ancho máximo para el menú lateral */
-ion-menu{
+
+ion-menu {
   --width: 300px;
   max-width: 300px;
 }
 
-/* Asegura que el contenido y las listas respeten el ancho máximo */
-ion-menu ion-list{
-  max-width:300px;
+ion-menu ion-list {
+  max-width: 300px;
   background: #F2A920;
 }
 </style>

@@ -15,7 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import ('../views/Tecnico.vue')
   },
   {
-    path: '/app/kpì',
+    path: '/app/kpi',
     component: () => import ('../views/Kpi.vue')
   }
 ]

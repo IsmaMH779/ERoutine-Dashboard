@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true" class="ion-padding transparent-content">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Negocio</ion-title>
@@ -20,15 +20,12 @@
         <!-- Fila 1: 4 Columnas -->
         <ion-row class="ion-row-1">
           <ion-col size="12" size-lg="6">
-            <div class="box">
             <div class="box">Columna 1</div>
-            </div>
           </ion-col>
           <ion-col size="12" size-lg="6">
             <div class="box">Columna 2</div>
           </ion-col>
         </ion-row>
-
 
         <!-- Fila 2: 2 Columnas -->
         <ion-row class="ion-row-2">
@@ -36,7 +33,6 @@
             <div class="box">Columna Grande</div>
           </ion-col>
         </ion-row>
-
 
         <!-- Fila 3: 2 Columnas -->
         <ion-row class="ion-row-3">
@@ -53,27 +49,34 @@
 </template>
 
 <script setup lang="ts">
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
-
+import {
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonMenuButton,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonCol,
+  IonRow,
+  IonGrid,
+} from "@ionic/vue";
 </script>
 
 <style scoped>
-
-
-ion-row{
+ion-row {
   overflow: hidden;
 }
 
-
 ion-col {
   max-height: 100%;
-  --ion-grid-column-padding:10px;
+  --ion-grid-column-padding: 10px;
 }
 
-ion-content {
-  --background: #505050;
+.transparent-content {
+  --background: transparent !important;
+  background: transparent !important;
 }
-
 
 /* cambiar estilos del header */
 ion-header.header {
@@ -89,24 +92,32 @@ ion-header.header * {
 
 /* El contenido real de cada columna */
 .box {
-  background: #1E1E1E;
+  background: #1e1e1e;
   height: 100%;
   max-height: 100%;
   overflow: hidden;
-  border-radius:5px;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: start;
 }
 
-
 /* Aplicar altura total y por filas, solo en pantallas ≥ md */
-@media (min-width: 992px) {  
-  ion-grid{height: 100%;}
-  .ion-row-1{height: 33%; max-height: 33%;}
-  .ion-row-2{height: 33%; max-height: 33%;}
-  .ion-row-3{height: 33%; max-height: 33%;}
+@media (min-width: 992px) {
+  ion-grid {
+    height: 100%;
+  }
+  .ion-row-1 {
+    height: 33%;
+    max-height: 33%;
+  }
+  .ion-row-2 {
+    height: 33%;
+    max-height: 33%;
+  }
+  .ion-row-3 {
+    height: 33%;
+    max-height: 33%;
+  }
 }
-
-
 </style>

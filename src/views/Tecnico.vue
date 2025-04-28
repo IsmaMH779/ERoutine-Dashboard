@@ -9,7 +9,7 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true" class="ion-padding">
+    <ion-content :fullscreen="true" class="ion-padding transparent-content">
       <ion-header collapse="condense">
         <ion-toolbar>
           <ion-title size="large">Tecnico</ion-title>
@@ -59,6 +59,9 @@ import {
   IonPage,
   IonTitle,
   IonToolbar,
+  IonCol,
+  IonRow,
+  IonGrid
 } from "@ionic/vue";
 </script>
 
@@ -72,9 +75,11 @@ ion-col {
   --ion-grid-column-padding: 10px;
 }
 
-ion-content {
-  --background: #505050;
+.transparent-content {
+  --background: transparent !important;
+  background: transparent !important;
 }
+
 /* cambiar estilos del header */
 ion-header.header {
   border: none !important;

@@ -9,7 +9,7 @@
         </ion-toolbar>
       </ion-header>
   
-      <ion-content :fullscreen="true">
+      <ion-content :fullscreen="true" class="transparent-content">
         <ion-header collapse="condense">
           <ion-toolbar>
             <ion-title size="large">Kpi</ion-title>
@@ -26,6 +26,12 @@
   </script>
   
   <style scoped>
+
+  .transparent-content {
+    --background: transparent !important;
+    background: transparent !important;
+  }
+
   #container {
     text-align: center;
     position: absolute;
