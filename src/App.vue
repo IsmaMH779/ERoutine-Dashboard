@@ -264,4 +264,8 @@ ion-menu ion-list {
   max-width: 300px;
   background: #F2A920;
 }
+
+ion-menu.md ion-list {
+  padding: 0;
+}
 </style>

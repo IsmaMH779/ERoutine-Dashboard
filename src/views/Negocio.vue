@@ -9,77 +9,53 @@
       </ion-toolbar>
     </ion-header>
 
-    <ion-content :fullscreen="true" class="ion-padding transparent-content">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Negocio</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <ion-grid class="dashboard-grid">
-        <!-- Fila 1: 4 Columnas -->
-        <ion-row class="ion-row-1">
-          <ion-col size="12" size-lg="6">
-            <div class="box">
-              <div class="chart-container">
-                <h3>Ejercicios más populares (KPI #8)</h3>
-                <apex-chart 
-                  type="bar"
-                  :options="horizontalBarOptions"
-                  :series="horizontalBarSeries"
-                  height="90%"
-                ></apex-chart>
-              </div>
+    <ion-content :fullscreen="true" class="transparent-content">
+      <ion-grid class="h-full">
+        <ion-row class="row-height">
+          <!-- ChartJS: Crecimiento de usuarios -->
+          <ion-col size="12" size-md="6" class="col-height">
+            <div class="chart-container">
+              <canvas ref="lineChart"></canvas>
             </div>
           </ion-col>
-          <ion-col size="12" size-lg="6">
-            <div class="box">
-              <div class="chart-container">
-                <h3>Relación fotos vs rutinas (KPI #10)</h3>
-                <apex-chart 
-                  type="scatter"
-                  :options="scatterOptions"
-                  :series="scatterSeries"
-                  height="90%"
-                ></apex-chart>
-              </div>
+
+          <!-- ApexCharts: Usuarios activos -->
+          <ion-col size="12" size-md="6" class="col-height">
+            <div class="chart-container">
+            <apexchart
+              type="bar"
+              height="100%"
+              :options="stackedBarOptions"
+              :series="stackedBarSeries"
+            ></apexchart>
             </div>
           </ion-col>
         </ion-row>
 
-        <!-- Fila 2: 2 Columnas -->
-        <ion-row class="ion-row-2">
-          <ion-col size="12" size-lg="12">
-            <div class="box">
-              <div class="chart-container">
-                <h3>Crecimiento de usuarios activos mensuales (KPI #6)</h3>
-                <e-chart 
-                  :option="stackedAreaOption" 
-                  autoresize
-                  style="width: 100%; height: 90%;"
-                ></e-chart>
-              </div>
+        <ion-row class="row-height">
+          <!-- ApexCharts: Rutina cumplida -->
+          <ion-col size="12" size-md="4" class="col-height">
+            <div class="chart-container">
+              <DonutChart/>
             </div>
           </ion-col>
-        </ion-row>
 
-        <!-- Fila 3: 2 Columnas -->
-        <ion-row class="ion-row-3">
-          <ion-col size="12" size-lg="8">
-            <div class="box">
-              <div class="chart-container">
-                <h3>Rutinas finalizadas por semana (KPI #9)</h3>
-                <canvas ref="lineChartRef" style="width: 100%; height: 90%;"></canvas>
-              </div>
-            </div>
+          <!-- ECharts: Uso de funcionalidad -->
+          <ion-col size="12" size-md="4" class="col-height">
+            <div class="chart-container">
+            <v-chart
+              class="w-full h-full"
+              :option="horizontalBarOptions"
+              autoresize
+            />
+          </div>
           </ion-col>
-          <ion-col size="12" size-lg="4">
-            <div class="box">
-              <div class="chart-container">
-                <h3>Usuarios retenidos después de 3 meses</h3>
-                <canvas ref="pieChartRef" style="width: 100%; height: 90%;"></canvas>
-              </div>
-            </div>
+
+          <!-- ECharts: Subida de imágenes -->
+          <ion-col size="12" size-md="4" class="col-height">
+            <div class="chart-container">
+            <v-chart class="w-full h-full" :option="paretoOptions" autoresize />
+          </div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -88,6 +64,20 @@
 </template>
 
 <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import Chart from 'chart.js/auto';
+import VueApexCharts from 'vue3-apexcharts';
+import { use } from 'echarts/core';
+import { CanvasRenderer } from 'echarts/renderers';
+import { BarChart, LineChart, PieChart } from 'echarts/charts';
+import {
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+} from 'echarts/components';
+import VChart, { THEME_KEY } from 'vue-echarts';
+
 import {
   IonButtons,
   IonContent,
@@ -98,415 +88,227 @@ import {
   IonToolbar,
   IonCol,
   IonRow,
-  IonGrid,
+  IonGrid
 } from "@ionic/vue";
-import { ref, onMounted } from 'vue';
-import VueApexCharts from 'vue3-apexcharts';
-import { use } from 'echarts/core';
-import { CanvasRenderer } from 'echarts/renderers';
-import { LineChart as ELineChart } from 'echarts/charts';
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-} from 'echarts/components';
-import VueECharts from 'vue-echarts';
-import { Chart, registerables } from 'chart.js';
 
-// Registrar componentes necesarios para ECharts
+import DonutChart from '@/views/components/negocio/charts/DonutChart.vue'
+
+// Registro de componentes ApexCharts
+const apexchart = VueApexCharts;
+
+// Configuración ECharts
 use([
   CanvasRenderer,
-  ELineChart,
+  BarChart,
+  LineChart,
+  PieChart,
   GridComponent,
   TooltipComponent,
-  LegendComponent
+  TitleComponent,
+  LegendComponent,
 ]);
 
-// Registrar componentes necesarios para ChartJS
-Chart.register(...registerables);
+// ChartJS: Crecimiento de usuarios
+const lineChart = ref<HTMLCanvasElement>();
+onMounted(() => {
+  if (lineChart.value) {
+    new Chart(lineChart.value!, {
+  type: 'line',
+  data: {
+    labels: ['Ene ’25', 'Feb ’25', 'Mar ’25', 'Abr ’25', 'May ’25'],
+    datasets: [{
+      label: 'Usuarios registrados',
+      data: [1200, 1800, 2400, 3200, 3900],
+      borderColor: '#E09915',
+      backgroundColor: 'rgba(224, 153, 21, 0.2)',  // color de relleno opcional
+      tension: 0.4,
+      fill: true
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Crecimiento de usuarios',
+        color: '#ffffff',             // título en blanco
+        font: { size: 18 }
+      },
+      legend: {
+        labels: {
+          color: '#ffffff'            // leyenda en blanco
+        }
+      },
+      tooltip: {
+        titleColor: '#000',           // opcional: color de texto del tooltip
+        bodyColor: '#000'
+      }
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false              // quita líneas de fondo verticales
+        },
+        ticks: {
+          color: '#ffffff'            // etiquetas ejes en blanco
+        }
+      },
+      y: {
+        grid: {
+          display: false              // quita líneas de fondo horizontales
+        },
+        ticks: {
+          color: '#ffffff'
+        }
+      }
+    }
+  }
+});
+  }})
 
-// Definir componentes
-const ApexChart = VueApexCharts;
-const EChart = VueECharts;
-
-// Referencias para los canvas de ChartJS
-const lineChartRef = ref(null);
-const pieChartRef = ref(null);
-
-// Datos para ApexCharts - Gráfico de barras horizontales
-const horizontalBarSeries = ref([{
-  data: [78, 65, 61, 53, 42]
-}]);
-
-const horizontalBarOptions = ref({
+// ApexCharts: Usuarios activos
+const stackedBarOptions = ref({
   chart: {
     type: 'bar',
+    stacked: true,
     height: '100%',
-    toolbar: {
-      show: false
-    },
-    foreColor: '#ccc'
+    toolbar: { show: false }
   },
   plotOptions: {
     bar: {
-      horizontal: true,
-      barHeight: '60%',
-      distributed: true
+      horizontal: false,
+      columnWidth: '70%'
     }
   },
-  colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B'],
-  dataLabels: {
-    enabled: true,
-    textAnchor: 'start',
-    style: {
-      colors: ['#fff']
-    },
-    formatter: function(val: number) {
-      return val + ' usuarios';
-    },
-    offsetX: 0
+  title: {
+    text: 'Usuarios activos a 4 meses',
+    align: 'center',
+    style: { color: '#ffffff' }       // título en blanco
   },
+  colors: ['#E09915', '#FFB700'],     // tus colores
   xaxis: {
-    categories: ['Press de banca', 'Sentadillas', 'Peso muerto', 'Dominadas', 'Zancadas'],
-    labels: {
-      style: {
-        colors: '#ccc'
-      }
-    }
+    categories: ['Dic ’24', 'Ene ’25', 'Feb ’25'],
+    labels: { style: { colors: '#ffffff' } }
   },
   yaxis: {
-    labels: {
-      style: {
-        colors: '#ccc'
-      }
-    }
+    labels: { style: { colors: '#ffffff' } }
   },
   grid: {
-    borderColor: '#333'
-  },
-  tooltip: {
-    theme: 'dark'
-  },
-  // Añadir línea de objetivo KPI
-  annotations: {
-    xaxis: [{
-      x: 70,
-      borderColor: '#FF4560',
-      label: {
-        borderColor: '#FF4560',
-        style: {
-          color: '#fff',
-          background: '#FF4560'
-        },
-        text: 'Objetivo KPI: 70'
-      }
-    }]
-  }
-});
-
-// Datos para ApexCharts - Gráfico de dispersión
-const scatterSeries = ref([{
-  name: "Usuarios",
-  data: [
-    [5, 2], [10, 4], [15, 5], [20, 8], [25, 9],
-    [30, 11], [35, 12], [40, 13], [45, 15], [50, 16],
-    [55, 17], [60, 18], [65, 19], [70, 20], [75, 21],
-    [80, 22], [85, 23], [90, 24], [95, 25], [100, 26]
-  ]
-}]);
-
-const scatterOptions = ref({
-  chart: {
-    height: '100%',
-    type: 'scatter',
-    zoom: {
-      enabled: true,
-      type: 'xy'
-    },
-    foreColor: '#ccc',
-    toolbar: {
-      show: false
-    }
-  },
-  xaxis: {
-    title: {
-      text: 'Fotos subidas',
-      style: {
-        color: '#ccc'
-      }
-    },
-    labels: {
-      style: {
-        colors: '#ccc'
-      }
-    }
-  },
-  yaxis: {
-    title: {
-      text: 'Rutinas completadas',
-      style: {
-        color: '#ccc'
-      }
-    },
-    labels: {
-      style: {
-        colors: '#ccc'
-      }
-    }
-  },
-  markers: {
-    size: 6,
-    colors: ['#00E396']
-  },
-  grid: {
-    borderColor: '#333'
-  },
-  tooltip: {
-    theme: 'dark'
-  },
-  // Añadir anotaciones para objetivos KPI
-  annotations: {
-    yaxis: [{
-      y: 20,
-      borderColor: '#FF4560',
-      label: {
-        borderColor: '#FF4560',
-        style: {
-          color: '#fff',
-          background: '#FF4560'
-        },
-        text: 'Objetivo KPI: 20 rutinas'
-      }
-    }],
-    xaxis: [{
-      x: 70,
-      borderColor: '#FEB019',
-      label: {
-        borderColor: '#FEB019',
-        style: {
-          color: '#fff',
-          background: '#FEB019'
-        },
-        text: 'Objetivo KPI: 70 fotos'
-      }
-    }]
-  }
-});
-
-// Datos para ECharts - Gráfico de área acumulada
-const stackedAreaOption = ref({
-  tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-      label: {
-        backgroundColor: '#6a7985'
-      }
-    }
+    show: false                       // quita todas las líneas de grid
   },
   legend: {
-    data: ['Nuevos usuarios', 'Usuarios recurrentes', 'Usuarios premium', 'Objetivo KPI'],
-    textStyle: {
-      color: '#ccc'
-    }
+    labels: { colors: '#ffffff' }
   },
-  grid: {
-    left: '3%',
-    right: '4%',
-    bottom: '3%',
-    containLabel: true
+  responsive: [ /* ... */ ]
+});
+
+
+const stackedBarSeries = ref([
+  { name: 'Activos', data: [320, 400, 480] },
+  { name: 'Total alta', data: [800, 1000, 1200] }
+]);
+
+// ECharts: Uso de funcionalidad
+const horizontalBarOptions = ref({
+  title: {
+    text: 'Uso de funcionalidad específica',
+    left: 'center',
+    textStyle: { color: '#ffffff' }
   },
-  xAxis: [
-    {
-      type: 'category',
-      boundaryGap: false,
-      data: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-      axisLabel: {
-        color: '#ccc'
+  tooltip: { trigger: 'axis' },
+  grid: { show: false, containLabel: true },
+  xAxis: {
+    type: 'value',
+    axisLine: { lineStyle: { color: '#ffffff' } },
+    axisLabel: { color: '#ffffff', formatter: '{value}%' },
+    splitLine: { show: false }      // quita líneas
+  },
+  yAxis: {
+    type: 'category',
+    data: ['Freemium', 'Essentials', 'Premium', 'Enterprise'],
+    axisLine: { lineStyle: { color: '#ffffff' } },
+    axisLabel: { color: '#ffffff' }
+  },
+  series: [{
+    name: 'Uso',
+    type: 'bar',
+    data: [40, 55, 75, 90],
+    itemStyle: {
+      color: (params) => {
+        // puedes devolver diferente color según índice
+        const paleta = ['#E09915', '#E09915', '#E09915', '#E09915'];
+        return paleta[params.dataIndex];
       }
+    },
+    label: {
+      show: true,
+      position: 'insideRight',
+      color: '#ffffff'               // texto en blanco
     }
-  ],
+  }]
+});
+
+
+// ECharts: Pareto
+const paretoOptions = ref({
+  title: {
+    text: 'Subida de imágenes',
+    left: 'center',
+    textStyle: { color: '#ffffff' }
+  },
+  tooltip: { trigger: 'axis' },
+  legend: {
+    data: ['Subidas', 'Acumulado'],
+    top: 'bottom',
+    textStyle: { color: '#ffffff' }
+  },
+  xAxis: {
+    data: ['U1', 'U2', 'U3', 'U4', 'U5'],
+    axisLine: { lineStyle: { color: '#ffffff' } },
+    axisLabel: { color: '#ffffff' },
+    splitLine: { show: false }
+  },
   yAxis: [
     {
       type: 'value',
-      axisLabel: {
-        color: '#ccc'
-      }
+      name: 'Subidas',
+      axisLine: { lineStyle: { color: '#ffffff' } },
+      axisLabel: { color: '#ffffff' },
+      splitLine: { show: false }
+    },
+    {
+      type: 'value',
+      name: 'Acumulado %',
+      min: 0,
+      max: 100,
+      axisLine: { lineStyle: { color: '#ffffff' } },
+      axisLabel: { color: '#ffffff' },
+      splitLine: { show: false }
     }
   ],
   series: [
     {
-      name: 'Nuevos usuarios',
-      type: 'line',
-      stack: 'Total',
-      areaStyle: {},
-      emphasis: {
-        focus: 'series'
-      },
-      data: [120, 132, 101, 134, 90, 230, 210, 182, 191, 234, 290, 330]
+      name: 'Subidas',
+      type: 'bar',
+      data: [120, 90, 50, 30, 20],
+      itemStyle: { color: '#FED300' },
+      label: { show: true, position: 'top', color: '#ffffff' }
     },
     {
-      name: 'Usuarios recurrentes',
+      name: 'Acumulado',
       type: 'line',
-      stack: 'Total',
-      areaStyle: {},
-      emphasis: {
-        focus: 'series'
-      },
-      data: [220, 182, 191, 234, 290, 330, 310, 123, 442, 321, 90, 149]
-    },
-    {
-      name: 'Usuarios premium',
-      type: 'line',
-      stack: 'Total',
-      areaStyle: {},
-      emphasis: {
-        focus: 'series'
-      },
-      data: [150, 232, 201, 154, 190, 330, 410, 182, 191, 234, 290, 330]
-    },
-    // Añadir línea de objetivo KPI
-    {
-      name: 'Objetivo KPI',
-      type: 'line',
-      stack: false,
-      symbol: 'none',
-      lineStyle: {
-        color: '#FF4560',
-        width: 2,
-        type: 'dashed'
-      },
-      data: [800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800, 800]
+      yAxisIndex: 1,
+      data: [38, 66, 81, 91, 100],
+      itemStyle: { color: '#FF9800' },
+      lineStyle: { width: 2 },
+      label: { show: true, color: '#ffffff' }
     }
-  ],
-  color: ['#80FFA5', '#00DDFF', '#FF8C00', '#FF4560']
-});
-
-onMounted(() => {
-  // Inicializar gráfico de línea (ChartJS)
-  if (lineChartRef.value) {
-    new Chart(lineChartRef.value, {
-      type: 'line',
-      data: {
-        labels: ['Semana 1', 'Semana 2', 'Semana 3', 'Semana 4', 'Semana 5', 'Semana 6', 'Semana 7', 'Semana 8'],
-        datasets: [
-          {
-            label: 'Rutinas finalizadas',
-            data: [65, 59, 80, 81, 56, 55, 72, 68],
-            fill: false,
-            borderColor: '#3e95cd',
-            tension: 0.1,
-            pointBackgroundColor: '#3e95cd'
-          },
-          {
-            label: 'Objetivo KPI',
-            data: [75, 75, 75, 75, 75, 75, 75, 75],
-            fill: false,
-            borderColor: '#FF4560',
-            borderDash: [5, 5],
-            pointRadius: 0,
-            tension: 0
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              color: '#333'
-            },
-            ticks: {
-              color: '#ccc'
-            }
-          },
-          x: {
-            grid: {
-              color: '#333'
-            },
-            ticks: {
-              color: '#ccc'
-            }
-          }
-        },
-        plugins: {
-          legend: {
-            labels: {
-              color: '#ccc'
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // Inicializar gráfico de pastel (ChartJS)
-  if (pieChartRef.value) {
-    const pieChart = new Chart(pieChartRef.value, {
-      type: 'pie',
-      data: {
-        labels: ['Usuarios activos', 'Usuarios inactivos'],
-        datasets: [{
-          data: [30, 70],
-          backgroundColor: [
-            '#4CAF50',
-            '#F44336'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: '#ccc'
-            }
-          },
-          tooltip: {
-            callbacks: {
-              label: function(context: any) {
-                return context.label + ': ' + context.raw + '%';
-              }
-            }
-          }
-        },
-        animation: {
-          onComplete: function() {
-            const ctx = pieChart.ctx;
-            if (ctx) {
-              ctx.font = '14px Arial';
-              ctx.fillStyle = '#FF4560';
-              ctx.textAlign = 'center';
-              ctx.fillText('Objetivo KPI: 50%', pieChart.width / 2, pieChart.height - 10);
-            }
-          }
-        }
-      }
-    });
-  }
-
-  // Responsive handling for window resize
-  window.addEventListener('resize', () => {
-    // No es necesario manejar el resize manualmente ya que los componentes lo hacen automáticamente
-  });
+  ]
 });
 </script>
 
 <style scoped>
-ion-row {
-  overflow: hidden;
-}
-
-ion-col {
-  max-height: 100%;
-  --ion-grid-column-padding: 10px;
-}
-
 .transparent-content {
   --background: transparent !important;
   background: transparent !important;
@@ -524,50 +326,37 @@ ion-header.header * {
   background-color: transparent !important;
 }
 
-/* El contenido real de cada columna - estilo original */
-.box {
-  background: #1e1e1e;
+ 
+.h-full {
   height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  padding: 15px;
+}
+
+.row-height {
+  height: 45vh;
+  min-height: 400px;
+}
+
+.col-height {
+  height: 100%;
+  min-height: 300px;
 }
 
 .chart-container {
-  width: 100%;
+  position: relative;
   height: 100%;
-  display: flex;
-  flex-direction: column;
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(7px);
 }
 
-.chart-container h3 {
-  color: #ccc;
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 16px;
-  text-align: center;
+ion-col {
+  padding: 8px;
 }
 
-/* Aplicar altura total y por filas, solo en pantallas ≥ md */
-@media (min-width: 992px) {
-  ion-grid {
-    height: 100%;
-  }
-  .ion-row-1 {
-    height: 33%;
-    max-height: 33%;
-  }
-  .ion-row-2 {
-    height: 33%;
-    max-height: 33%;
-  }
-  .ion-row-3 {
-    height: 33%;
-    max-height: 33%;
-  }
+ion-row {
+  margin: -8px;
 }
 </style>
