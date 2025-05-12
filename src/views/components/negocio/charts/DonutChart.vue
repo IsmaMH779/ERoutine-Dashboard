@@ -1,25 +1,23 @@
 <template>
-  <div class="donut-wrapper">
-    <!-- Gráfico Donut -->
-    <apexchart
-      type="donut"
-      height="100%"
-      :options="donutOptions"
-      :series="donutSeries"
-    ></apexchart>
+  <!-- Gráfico Donut -->
+  <apexchart
+    type="donut"
+    height="80%"
+    :options="donutOptions"
+    :series="donutSeries"
+  ></apexchart>
 
-    <!-- Indicadores manuales -->
-    <div class="legend-items">
-      <div class="legend-item">
-        <span class="color-box completed"></span>
-        <p class="label">Completado</p>
-        <p class="value">{{ completed }}%</p>
-      </div>
-      <div class="legend-item">
-        <span class="color-box not-completed"></span>
-        <p class="label">No completado</p>
-        <p class="value">{{ notCompleted }}%</p>
-      </div>
+  <!-- Indicadores manuales -->
+  <div class="legend-items">
+    <div class="legend-item">
+      <span class="color-box not-completed"></span>
+      <p class="label">No completado</p>
+      <p class="value">{{ notCompleted }}%</p>
+    </div>
+    <div class="legend-item">
+      <span class="color-box completed"></span>
+      <p class="label">Completado</p>
+      <p class="value">{{ completed }}%</p>
     </div>
   </div>
 </template>
@@ -28,13 +26,19 @@
 import { ref, computed } from 'vue';
 import VueApexCharts from 'vue3-apexcharts';
 
+// props
+const props = defineProps<{
+  completed: number;
+  notCompleted: number;
+}>();
+
 // Registrar componente
 const apexchart = VueApexCharts;
 
 // Series manual
-const completed = ref(65);
-const notCompleted = ref(35);
-const donutSeries = ref([ completed.value, notCompleted.value ]);
+const completed = ref(props.completed);
+const notCompleted = ref(props.notCompleted);
+const donutSeries = ref([ props.completed, props.notCompleted ]);
 
 // Opciones del donut
 const donutOptions = ref({
@@ -53,7 +57,7 @@ const donutOptions = ref({
   plotOptions: {
     pie: {
       donut: {
-        size: '70%',
+        size: '0%',
       },
     },
   },
@@ -92,16 +96,21 @@ apexchart {
 
 .legend-items {
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   width: 100%;
   padding: 16px 0;
   box-sizing: border-box;
+  flex-wrap: wrap; /* permite pasar a nueva línea si no hay espacio */
+  gap: 12px;        /* separación entre elementos en filas */
 }
 
 .legend-item {
   display: flex;
+  flex-direction: column; /* apila verticalmente los textos */
   align-items: center;
-  gap: 8px;
+  gap: 4px; /* espacio entre elementos dentro de cada item */
+  min-width: 100px; /* opcional: para evitar que se apilen demasiado pronto */
 }
 
 .color-box {
@@ -110,6 +119,7 @@ apexchart {
   border-radius: 4px;
   flex-shrink: 0;
 }
+
 
 .color-box.completed {
   background-color: #E09915;
