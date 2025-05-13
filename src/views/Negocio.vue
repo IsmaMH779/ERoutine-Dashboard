@@ -343,7 +343,7 @@ ion-col {
 ion-header.header {
   border: none !important;
   box-shadow: none !important;
-  z-index: 1;
+  
 }
 
 ion-header.header * {
@@ -351,6 +351,11 @@ ion-header.header * {
   --background: transparent !important;
   background-color: transparent !important;
 }
+
+ ion-title {
+    --color: white;
+  }
+  
 
 @media (min-width: 992px) {
   ion-grid {
@@ -365,6 +370,7 @@ ion-header.header * {
     max-height: 50%;
   }
 }
+
 
 /* Estilos específicos para móvil */
 @media (max-width: 991px) {
@@ -383,7 +389,7 @@ ion-header.header * {
     min-height: 250px;
     margin-bottom: 20px;
   }
-  
+ 
   .chart-container {
     height: 100%;
     min-height: 250px;

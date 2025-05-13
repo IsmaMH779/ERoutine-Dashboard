@@ -196,6 +196,7 @@ ion-menu.md ion-note {
 ion-menu.md ion-list-header,
 ion-menu.md ion-note {
   padding-left: 10px;
+   --color: white;
 }
 
 ion-menu.md ion-list#inbox-list {

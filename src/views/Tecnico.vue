@@ -748,6 +748,10 @@ ion-header.header * {
   background-color: transparent !important;
 }
 
+ion-title {
+    --color: white;
+  }
+
 @media (min-width: 992px) {
   ion-grid {
     height: 100%;
