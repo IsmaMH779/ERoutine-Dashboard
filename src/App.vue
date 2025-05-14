@@ -75,7 +75,7 @@ const appPages = [
     mdIcon: 'paper-plane-sharp',
   },
   {
-    title: 'KPIs',
+    title: 'Objetivos',
     url: '/app/kpi',
     iosIcon: 'paper-plane-outline',
     mdIcon: 'paper-plane-sharp',

@@ -33,7 +33,7 @@
               <div class="card-header">
                 <div class="title-container">
                   <ion-icon :icon="trendingUpOutline" class="objective-icon"></ion-icon>
-                  <h3 class="white-text">Incrementar la base de usuarios activos mensuales en un 30%</h3>
+                  <h3 class="white-text">Incrementar la base de usuarios activos mensuales en un 66%</h3>
                 </div>
                 
               </div>
@@ -41,7 +41,7 @@
               <div class="smart-criteria">
                 <div class="criteria">
                   <span class="criteria-label">S</span>
-                  <p class="white-text">Aumentar los usuarios activos de 3.900 a 5.070.</p>
+                  <p class="white-text">Aumentar los usuarios activos de 3000 a 5000.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>

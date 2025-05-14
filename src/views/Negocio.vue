@@ -123,11 +123,11 @@ onMounted(() => {
     new Chart(lineChart.value!, {
       type: "line",
       data: {
-        labels: ["Ene", "Feb", "Mar", "Abr", "May"],
+        labels: ["Dic","Ene", "Feb", "Mar", "Abr", "May"],
         datasets: [
           {
             label: "Usuarios registrados",
-            data: [1200, 1800, 2400, 3200, 3900],
+            data: [800, 2200, 2000, 1900, 2500, 3000],
             borderColor: "#E09915",
             backgroundColor: "rgba(224, 153, 21, 0.2)", // color de relleno opcional
             tension: 0.4,
@@ -196,13 +196,13 @@ const stackedBarOptions = ref({
     },
   },
   title: {
-    text: "Usuarios activos a 4 meses",
+    text: "Usuarios activos a 6 meses",
     align: "center",
     style: { color: "#ffffff" }, // título en blanco
   },
   colors: ["#E09915", "#FFB700"], // tus colores
   xaxis: {
-    categories: ["Dic '24", "Ene '25", "Feb '25"],
+    categories: ["Dic '25", "Ene '25", "Feb '25", "Mar '25","Abr '25","May '25"],
     labels: { style: { colors: "#ffffff" } },
   },
   yaxis: {
@@ -220,8 +220,8 @@ const stackedBarOptions = ref({
 });
 
 const stackedBarSeries = ref([
-  { name: "Activos", data: [320, 400, 480] },
-  { name: "Total alta", data: [800, 1000, 1200] },
+  { name: "Activos", data: [658, 1800, 1500, 1300, 2200, 2900] },
+  { name: "Total alta", data: [142, 400, 700, 900, 300, 100] },
 ]);
 
 // ECharts: Uso de funcionalidad
@@ -241,7 +241,7 @@ const horizontalBarOptions = ref({
   },
   yAxis: {
     type: "category",
-    data: ["Freemium", "Essentials", "Premium", "Enterprise"],
+    data: ["Progreso", "Entrenamiento", "Crear rutina"],
     axisLine: { lineStyle: { color: "#ffffff" } },
     axisLabel: { color: "#ffffff" },
   },
@@ -249,7 +249,7 @@ const horizontalBarOptions = ref({
     {
       name: "Uso",
       type: "bar",
-      data: [40, 55, 75, 90],
+      data: [ 20, 35, 45],
       itemStyle: {
         color: (params) => {
           // puedes devolver diferente color según índice
