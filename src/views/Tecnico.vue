@@ -100,12 +100,12 @@ let realtimeInterval = null;
 
 // Colores de la aplicación
 const colors = {
-  primary: '#58a6ff',
-  secondary: '#238636',
+  primary: '#FBBC05',
+  secondary: '#FFFFFF',
   warning: '#f0883e',
-  danger: '#f85149',
-  background: '#1e1e1e',
-  text: '#c9d1d9'
+  danger: '#FFFFFF',
+  background: '#FFFFFF',
+  text: '#FFFFFF'
 };
 
 // Variable para controlar si estamos en móvil
@@ -171,7 +171,7 @@ const handleResize = () => {
   }, 100);
 };
 
-// 1. Gráfico de errores 500/400 (ChartJS - Barras)
+// 1. Gráfico de errores 500/400
 const initErrorChart = () => {
   if (!errorChart.value) return;
   
@@ -313,7 +313,8 @@ const initHeatmapChart = () => {
         color: colors.text
       },
       inRange: {
-        color: ['#313695', '#4575b4', '#74add1', '#abd9e9', '#e0f3f8', '#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
+        color: ['#FBBC05', '#F8A800', '#F59C00', '#F29200', '#F08700', '#EC7C00', '#E57100', '#E16700', '#DD5C00', '#D75200', '#FFFFFF']
+
       }
     },
     series: [

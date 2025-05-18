@@ -10,9 +10,10 @@
       <ion-menu content-id="main-content" type="overlay" width="300px">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-list-header>ERoutine</ion-list-header>
-            <ion-note>Dashboard</ion-note>
-
+            <div class="titlecont">
+              <img :src="logoSVG">
+              <ion-note>Dashboard</ion-note>
+            </div>
             <ion-menu-toggle :auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" :detail="false" :class="{ selected: selectedIndex === i }">
                 <ion-icon aria-hidden="true" slot="start" :ios="p.iosIcon" :md="p.mdIcon"></ion-icon>
@@ -47,6 +48,7 @@ import {
 } from '@ionic/vue';
 import { addIcons } from 'ionicons';
 import { mailSharp, mailOutline, paperPlaneSharp, paperPlaneOutline } from 'ionicons/icons';
+import logoSVG from "@/assets/Logo_ER.svg"
 
 import { ref, onMounted } from 'vue';
 import { tsParticles } from "tsparticles-engine";
@@ -157,6 +159,18 @@ onMounted(() => {
 </script>
 
 <style scoped>
+img {
+  height: 40px;
+  width: max-content;
+}
+
+.titlecont {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 /* Partículas como fondo */
 #background-container {
   position: fixed; /* Ojo: fixed, no absolute */
@@ -239,6 +253,7 @@ ion-menu.md ion-item ion-icon {
 
 ion-menu.md ion-item ion-label {
   font-weight: 500;
+  color: white;
 }
 
 ion-note {
