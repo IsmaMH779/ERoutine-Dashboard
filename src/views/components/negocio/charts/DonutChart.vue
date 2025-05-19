@@ -10,12 +10,12 @@
   <!-- Indicadores manuales -->
   <div class="legend-items">
     <div class="legend-item">
-      <span class="color-box not-completed"></span>
+      <span class="color-box" :style="{ backgroundColor: props.color2 }"></span>
       <p class="label">No completado</p>
       <p class="value">{{ notCompleted }}%</p>
     </div>
     <div class="legend-item">
-      <span class="color-box completed"></span>
+      <span class="color-box" :style="{ backgroundColor: props.color1 }"></span>
       <p class="label">Completado</p>
       <p class="value">{{ completed }}%</p>
     </div>
@@ -30,6 +30,8 @@ import VueApexCharts from 'vue3-apexcharts';
 const props = defineProps<{
   completed: number;
   notCompleted: number;
+  color1: string;
+  color2: string;
 }>();
 
 // Registrar componente
@@ -47,7 +49,7 @@ const donutOptions = ref({
     height: '100%',
     foreColor: '#ffffff',
   },
-  colors: ['#E09915', '#FFB700'],
+  colors: [props.color1, props.color2],
   labels: [],        // sin etiquetas internas
   title: {
     text: 'Rutina semanal cumplida',
@@ -118,15 +120,6 @@ apexchart {
   height: 16px;
   border-radius: 4px;
   flex-shrink: 0;
-}
-
-
-.color-box.completed {
-  background-color: #E09915;
-}
-
-.color-box.not-completed {
-  background-color: #FFB700;
 }
 
 .label {

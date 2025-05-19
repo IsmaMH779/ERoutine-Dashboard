@@ -39,7 +39,7 @@
           <ion-col size="12" size-md="4" class="chart-col">
             <div class="chart-container inf-div">
               <!-- Dani este es mio -->
-              <MiDonutChart :completed="65" :notCompleted="35" />
+              <MiDonutChart :completed="65" :notCompleted="35" :color1="'#E09915'" :color2="'#FFB700'"/>
             </div>
           </ion-col>
 
@@ -275,12 +275,12 @@ const paretoOptions = ref({
   },
   tooltip: { trigger: "axis" },
   legend: {
-    data: ["Subidas", "Acumulado"],
+    data: ["Ejercicio", "Subidas"],
     top: "bottom",
     textStyle: { color: "#ffffff" },
   },
   xAxis: {
-    data: ["U1", "U2", "U3", "U4", "U5"],
+    data: ["Nov.", "Int.", "Adv."],
     axisLine: { lineStyle: { color: "#ffffff" } },
     axisLabel: { color: "#ffffff" },
     splitLine: { show: false },
@@ -288,14 +288,14 @@ const paretoOptions = ref({
   yAxis: [
     {
       type: "value",
-      name: "Subidas",
+      name: "Ejercicio",
       axisLine: { lineStyle: { color: "#ffffff" } },
       axisLabel: { color: "#ffffff" },
       splitLine: { show: false },
     },
     {
       type: "value",
-      name: "Acumulado %",
+      name: "Subidas %",
       min: 0,
       max: 100,
       axisLine: { lineStyle: { color: "#ffffff" } },
@@ -305,17 +305,17 @@ const paretoOptions = ref({
   ],
   series: [
     {
-      name: "Subidas",
+      name: "Ejercicio",
       type: "bar",
-      data: [120, 90, 50, 30, 20],
+      data: [50, 40, 10],
       itemStyle: { color: "#FED300" },
       label: { show: true, position: "top", color: "#ffffff" },
     },
     {
-      name: "Acumulado",
+      name: "Subidas",
       type: "line",
       yAxisIndex: 1,
-      data: [38, 66, 81, 91, 100],
+      data: [90, 70, 30],
       itemStyle: { color: "#FF9800" },
       lineStyle: { width: 2 },
       label: { show: true, color: "#ffffff" },

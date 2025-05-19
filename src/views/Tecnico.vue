@@ -179,18 +179,18 @@ const initErrorChart = () => {
   
   // Datos de ejemplo para errores 500/400
   const data = {
-    labels: ['10/05', '11/05', '12/05', '13/05', '14/05'],
+    labels: ["Dic", "Ene", "Feb", "Mar","Abr","May"],
     datasets: [
       {
         label: 'Errores 400',
-        data: [25, 30, 22, 18, 27],
+        data: [50, 30, 15,25, 70],
         backgroundColor: colors.primary,
         borderColor: colors.primary,
         borderWidth: 1
       },
       {
         label: 'Errores 500',
-        data: [5, 8, 3, 7, 4],
+        data: [20, 8, 3, 20, 30],
         backgroundColor: colors.danger,
         borderColor: colors.danger,
         borderWidth: 1
@@ -245,22 +245,25 @@ const initHeatmapChart = () => {
   
   heatmapChartInstance = echarts.init(heatmapChart.value);
   
-  // Datos de ejemplo para el heatmap
+  // Datos para el heatmap
   const hours = ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'];
   const days = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+  const hourActivityPattern = [10, 15, 70, 30, 90, 40]; 
   
+
   const data = [];
-  for (let i = 0; i < days.length; i++) {
-    for (let j = 0; j < hours.length; j++) {
-      // Generar datos aleatorios con más actividad en horas laborales
-      let value = Math.floor(Math.random() * 100);
-      if (i < 5 && j >= 2 && j <= 4) {
-        value += 50; // Más actividad en días laborables y horas laborales
-      }
-      data.push([j, i, value]);
+
+  for (let dayIndex = 0; dayIndex < days.length; dayIndex++) {
+    for (let hourIndex = 0; hourIndex < hours.length; hourIndex++) {
+      let base = hourActivityPattern[hourIndex];
+      let weekendBoost = (dayIndex === 5 || dayIndex === 6) ? 10 + Math.floor(Math.random() * 10) : 0;
+      let randomVariation = Math.floor(Math.random() * 10) - 5;
+      let value = Math.max(0, base + weekendBoost + randomVariation);
+
+      data.push([hourIndex, dayIndex, value]);
     }
   }
-  
+
   const option = {
     tooltip: {
       position: 'top'
@@ -343,7 +346,6 @@ const initHeatmapChart = () => {
 const initIncidentsChart = () => {
   if (!incidentsChart.value) return;
   
-  // Asegurarse de que el contenedor tenga dimensiones
   if (incidentsChart.value.clientHeight === 0) {
     incidentsChart.value.style.height = isMobile.value ? '200px' : '85%';
   }
@@ -351,7 +353,7 @@ const initIncidentsChart = () => {
   const options = {
     series: [{
       name: 'Incidencias',
-      data: [3, 5, 7, 4, 2, 8, 3, 6, 4, 2]
+      data: [60, 70, 30, 20, 20, 80]
     }],
     chart: {
       height: '100%',
@@ -383,7 +385,7 @@ const initIncidentsChart = () => {
       strokeWidth: 2
     },
     xaxis: {
-      categories: ['01/05', '05/05', '10/05', '15/05', '20/05', '25/05', '30/05', '05/06', '10/06', '15/06'],
+      categories: ["Dic", "Ene", "Feb", "Mar","Abr","May"],
       labels: {
         style: {
           colors: colors.text
@@ -400,8 +402,8 @@ const initIncidentsChart = () => {
     annotations: {
       points: [
         {
-          x: '05/05',
-          y: 7,
+          x: 'Dic',
+          y: 70,
           marker: {
             size: 6,
             fillColor: colors.warning,
@@ -410,7 +412,7 @@ const initIncidentsChart = () => {
             radius: 2
           },
           label: {
-            text: 'Deploy v2.1',
+            text: 'Deploy v1.0',
             borderColor: colors.warning,
             style: {
               background: colors.warning,
@@ -426,8 +428,8 @@ const initIncidentsChart = () => {
           }
         },
         {
-          x: '25/05',
-          y: 8,
+          x: 'Ene',
+          y: 80,
           marker: {
             size: 6,
             fillColor: colors.warning,
@@ -436,7 +438,33 @@ const initIncidentsChart = () => {
             radius: 2
           },
           label: {
-            text: 'Actualización',
+            text: 'HotFix 1.2',
+            borderColor: colors.warning,
+            style: {
+              background: colors.warning,
+              color: '#fff',
+              fontSize: '10px',
+              padding: {
+                left: 5,
+                right: 5,
+                top: 2,
+                bottom: 2
+              }
+            }
+          }
+        },
+        {
+          x: 'Mar',
+          y: 60,
+          marker: {
+            size: 6,
+            fillColor: colors.warning,
+            strokeColor: '#fff',
+            strokeWidth: 2,
+            radius: 2
+          },
+          label: {
+            text: 'Actualizacion 1.5',
             borderColor: colors.warning,
             style: {
               background: colors.warning,
