@@ -228,6 +228,30 @@ const initErrorChart = () => {
           labels: {
             color: colors.text
           }
+        },
+        // Añadir esto para la línea KPI
+        annotation: {
+          annotations: {
+            kpiLine: {
+              type: 'line',
+              yMin: 10,
+              yMax: 10,
+              borderColor: '#FF0039',
+              borderWidth: 2,
+              borderDash: [5, 5],
+              label: {
+                display: true,
+                content: 'KPI 10',
+                position: 'start',
+                backgroundColor: 'rgba(0,0,0,0.7)',
+                color: '#fff',
+                font: {
+                  weight: 'bold'
+                }
+              },
+              drawTime: 'afterDatasetsDraw'
+            }
+          }
         }
       }
     }
@@ -345,150 +369,47 @@ const initHeatmapChart = () => {
 // 3. Gráfico de incidencias (ApexCharts - Línea con anotaciones)
 const initIncidentsChart = () => {
   if (!incidentsChart.value) return;
-  
+
   if (incidentsChart.value.clientHeight === 0) {
     incidentsChart.value.style.height = isMobile.value ? '200px' : '85%';
   }
-  
+
   const options = {
-    series: [{
-      name: 'Incidencias',
-      data: [60, 70, 30, 20, 20, 80]
-    }],
+    series: [30,50, 20], // Porcentajes de disponibilidad por servicio
     chart: {
       height: '100%',
-      type: 'line',
-      toolbar: {
-        show: false
-      },
+      type: 'radialBar',
       background: 'transparent',
       foreColor: colors.text
     },
-    colors: [colors.secondary],
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      curve: 'smooth',
-      width: 3
-    },
-    grid: {
-      borderColor: 'rgba(255, 255, 255, 0.1)',
-      row: {
-        colors: ['transparent']
-      }
-    },
-    markers: {
-      size: 4,
-      colors: [colors.secondary],
-      strokeColors: '#fff',
-      strokeWidth: 2
-    },
-    xaxis: {
-      categories: ["Dic", "Ene", "Feb", "Mar","Abr","May"],
-      labels: {
-        style: {
-          colors: colors.text
-        }
-      }
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: colors.text
-        }
-      }
-    },
-    annotations: {
-      points: [
-        {
-          x: 'Dic',
-          y: 70,
-          marker: {
-            size: 6,
-            fillColor: colors.warning,
-            strokeColor: '#fff',
-            strokeWidth: 2,
-            radius: 2
+    plotOptions: {
+      radialBar: {
+        dataLabels: {
+          name: {
+            fontSize: '14px'
           },
-          label: {
-            text: 'Deploy v1.0',
-            borderColor: colors.warning,
-            style: {
-              background: colors.warning,
-              color: '#fff',
-              fontSize: '10px',
-              padding: {
-                left: 5,
-                right: 5,
-                top: 2,
-                bottom: 2
-              }
-            }
-          }
-        },
-        {
-          x: 'Ene',
-          y: 80,
-          marker: {
-            size: 6,
-            fillColor: colors.warning,
-            strokeColor: '#fff',
-            strokeWidth: 2,
-            radius: 2
+          value: {
+            fontSize: '16px',
+            formatter: (val) => `${val}%`
           },
-          label: {
-            text: 'HotFix 1.2',
-            borderColor: colors.warning,
-            style: {
-              background: colors.warning,
-              color: '#fff',
-              fontSize: '10px',
-              padding: {
-                left: 5,
-                right: 5,
-                top: 2,
-                bottom: 2
-              }
-            }
-          }
-        },
-        {
-          x: 'Mar',
-          y: 60,
-          marker: {
-            size: 6,
-            fillColor: colors.warning,
-            strokeColor: '#fff',
-            strokeWidth: 2,
-            radius: 2
-          },
-          label: {
-            text: 'Actualizacion 1.5',
-            borderColor: colors.warning,
-            style: {
-              background: colors.warning,
-              color: '#fff',
-              fontSize: '10px',
-              padding: {
-                left: 5,
-                right: 5,
-                top: 2,
-                bottom: 2
-              }
+          total: {
+            show: true,
+            label: 'Promedio',
+            formatter: function () {
+              return '85%';
             }
           }
         }
-      ]
+      }
     },
-    tooltip: {
-      theme: 'dark'
-    }
+    labels: ['API Auth', 'API C. de rutinas', 'Progreso'],
+    colors: [colors.primary, colors.warning, '#FF6400']
   };
-  
+
   incidentsChartInstance = new ApexCharts(incidentsChart.value, options);
   incidentsChartInstance.render();
 };
+
 
 // 4. Gráfico de estabilidad de conexión (ECharts - Boxplot)
 const initBoxplotChart = () => {
@@ -504,7 +425,7 @@ const initBoxplotChart = () => {
   // Generar datos aleatorios para el boxplot
   const generateBoxplotData = () => {
     const result = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 3; i++) {
       const base = Math.random() * 100 + 50;
       const data = [];
       for (let j = 0; j < 50; j++) {
@@ -554,7 +475,7 @@ const initBoxplotChart = () => {
     },
     xAxis: {
       type: 'category',
-      data: ['/login', '/api/data', '/upload', '/profile', '/search'],
+      data: ['/post', '/upload', '/get'],
       boundaryGap: true,
       nameGap: 30,
       splitArea: {

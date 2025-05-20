@@ -100,6 +100,8 @@ import {
 } from "@ionic/vue";
 
 import MiDonutChart from "@/views/components/negocio/charts/DonutChart.vue";
+import annotationPlugin from 'chartjs-plugin-annotation';
+Chart.register(annotationPlugin);
 
 // Registro de componentes ApexCharts
 const apexchart = VueApexCharts;
@@ -123,13 +125,13 @@ onMounted(() => {
     new Chart(lineChart.value!, {
       type: "line",
       data: {
-        labels: ["Dic","Ene", "Feb", "Mar", "Abr", "May"],
+        labels: ["Dic", "Ene", "Feb", "Mar", "Abr", "May"],
         datasets: [
           {
             label: "Usuarios registrados",
             data: [800, 2200, 2000, 1900, 2500, 3000],
             borderColor: "#E09915",
-            backgroundColor: "rgba(224, 153, 21, 0.2)", // color de relleno opcional
+            backgroundColor: "rgba(224, 153, 21, 0.2)",
             tension: 0.4,
             fill: true,
           },
@@ -142,12 +144,12 @@ onMounted(() => {
           title: {
             display: true,
             text: "Crecimiento de usuarios",
-            color: "#ffffff", // título en blanco
+            color: "#ffffff",
             font: { size: 18 },
           },
           legend: {
             labels: {
-              color: "#ffffff", // leyenda en blanco
+              color: "#ffffff",
             },
           },
           tooltip: {
@@ -157,30 +159,46 @@ onMounted(() => {
             borderColor: '#E09915',
             borderWidth: 1,
           },
+          annotation: {
+            annotations: {
+    kpiLine: {
+      type: 'line',
+      yMin: 4500,
+      yMax: 4500,
+      borderColor: '#FFFF39',
+      borderWidth: 2,
+      borderDash: [6, 6],
+      label: {
+        content: 'Meta Junio: 4500',
+        enabled: true,
+        position: 'end',
+        color: '#ffffff',
+        backgroundColor: 'purple',
+        font: {
+          size: 10, // tamaño pequeño
+          weight: 'normal'
+        },
+        padding: 4,
+        xAdjust: -10
+      }
+    }
+  }
+          }
         },
         scales: {
           x: {
-            grid: {
-              display: false, // quita líneas de fondo verticales
-            },
-            ticks: {
-              color: "#ffffff", // etiquetas ejes en blanco
-            },
+            grid: { display: false },
+            ticks: { color: "#ffffff" },
           },
           y: {
-            grid: {
-              display: false, // quita líneas de fondo horizontales
-            },
-            ticks: {
-              color: "#ffffff",
-            },
+            grid: { display: false },
+            ticks: { color: "#ffffff" },
           },
         },
       },
     });
   }
 });
-
 // ApexCharts: Usuarios activos
 const stackedBarOptions = ref({
   chart: {
@@ -198,11 +216,11 @@ const stackedBarOptions = ref({
   title: {
     text: "Usuarios activos a 6 meses",
     align: "center",
-    style: { color: "#ffffff" }, // título en blanco
+    style: { color: "#ffffff" },
   },
-  colors: ["#E09915", "#FFB700"], // tus colores
+  colors: ["#E09915", "#FFB700"],
   xaxis: {
-    categories: ["Dic '25", "Ene '25", "Feb '25", "Mar '25","Abr '25","May '25"],
+    categories: ["Dic '25", "Ene '25", "Feb '25", "Mar '25", "Abr '25", "May '25"],
     labels: { style: { colors: "#ffffff" } },
   },
   yaxis: {
@@ -217,7 +235,25 @@ const stackedBarOptions = ref({
   tooltip: {
     theme: 'dark',
   },
+  annotations: {
+    yaxis: [
+      {
+        y: 4000,
+        borderColor: '#800080',
+        strokeDashArray: 4,
+        label: {
+          text: 'KPI esperado (40%)',
+          style: {
+            color: '#fff',
+            background: '#800080',
+            fontSize: '11px',
+          },
+        },
+      },
+    ],
+  },
 });
+
 
 const stackedBarSeries = ref([
   { name: "Activos", data: [658, 1800, 1500, 1300, 2200, 2900] },
@@ -249,10 +285,9 @@ const horizontalBarOptions = ref({
     {
       name: "Uso",
       type: "bar",
-      data: [ 20, 35, 45],
+      data: [20, 35, 45],
       itemStyle: {
         color: (params) => {
-          // puedes devolver diferente color según índice
           const paleta = ["#E09915", "#E09915", "#E09915", "#E09915"];
           return paleta[params.dataIndex];
         },
@@ -260,8 +295,30 @@ const horizontalBarOptions = ref({
       label: {
         show: true,
         position: "insideRight",
-        color: "#ffffff", // texto en blanco
+        color: "#ffffff",
       },
+      // Añadir estas líneas para los KPIs
+      markLine: {
+        data: [
+          {
+            name: 'Progreso 25%',
+            xAxis: 25,
+            lineStyle: {
+              color: '#ff0000', 
+              type: 'dashed' 
+            },
+            label: {
+              show: true,
+              position: 'end',
+              formatter: 'Progreso 25%'
+            }
+          }
+        ],
+        symbol: 'none', // Elimina los símbolos de los extremos
+        lineStyle: {
+          width: 2 // Grosor de la línea
+        }
+      }
     },
   ],
 });
@@ -303,7 +360,7 @@ const paretoOptions = ref({
       splitLine: { show: false },
     },
   ],
-  series: [
+   series: [
     {
       name: "Ejercicio",
       type: "bar",
@@ -318,7 +375,27 @@ const paretoOptions = ref({
       data: [90, 70, 30],
       itemStyle: { color: "#FF9800" },
       lineStyle: { width: 2 },
-      label: { show: true, color: "#ffffff" },
+      label: { show: true, color: "#FF9800" },
+      // Marca KPI aquí dentro
+      markLine: {
+        data: [{
+          name: 'KPI Subidas',
+          yAxis: 60,
+          lineStyle: {
+            color: '#FF0000',
+            type: 'dashed',
+            width: 2
+          },
+          label: {
+            show: true,
+            position: 'middle',
+            formatter: 'KPI 60%',
+            color: '#FF0000'
+          }
+        }],
+        symbol: 'none',
+        silent: true
+      }
     },
   ],
 });

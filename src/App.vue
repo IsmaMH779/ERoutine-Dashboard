@@ -47,19 +47,25 @@ import {
   IonSplitPane,
 } from '@ionic/vue';
 import { addIcons } from 'ionicons';
-import { mailSharp, mailOutline, paperPlaneSharp, paperPlaneOutline } from 'ionicons/icons';
 import logoSVG from "@/assets/Logo_ER.svg"
 
 import { ref, onMounted } from 'vue';
 import { tsParticles } from "tsparticles-engine";
 import { loadSlim } from "tsparticles-slim";
 
-// Registrar los iconos
+import { 
+  businessSharp, businessOutline, 
+  settingsSharp, settingsOutline,
+  flagSharp, flagOutline 
+} from 'ionicons/icons';
+
 addIcons({
-  'mail-sharp': mailSharp,
-  'mail-outline': mailOutline,
-  'paper-plane-sharp': paperPlaneSharp,
-  'paper-plane-outline': paperPlaneOutline
+  'business-sharp': businessSharp,
+  'business-outline': businessOutline,
+  'settings-sharp': settingsSharp,
+  'settings-outline': settingsOutline,
+  'flag-sharp': flagSharp,
+  'flag-outline': flagOutline
 });
 
 const selectedIndex = ref(0);
@@ -67,20 +73,20 @@ const appPages = [
   {
     title: 'Negocio',
     url: '/app/negocio',
-    iosIcon: 'mail-outline',
-    mdIcon: 'mail-sharp',
+    iosIcon: 'business-outline',
+    mdIcon: 'business-sharp',
   },
   {
     title: 'Tecnico',
     url: '/app/tecnico',
-    iosIcon: 'paper-plane-outline',
-    mdIcon: 'paper-plane-sharp',
+    iosIcon: 'settings-outline',
+    mdIcon: 'settings-sharp',
   },
   {
     title: 'Objetivos',
     url: '/app/kpi',
-    iosIcon: 'paper-plane-outline',
-    mdIcon: 'paper-plane-sharp',
+    iosIcon: 'flag-outline',
+    mdIcon: 'flag-sharp',
   }
 ];
 

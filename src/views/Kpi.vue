@@ -145,18 +145,18 @@
               <div class="card-header">
                 <div class="title-container">
                   <ion-icon :icon="diamondOutline" class="objective-icon"></ion-icon>
-                  <h3 class="white-text">Incrementar en un 25% el uso de la función "Plan personalizado" por segmento Premium</h3>
+                  <h3 class="white-text">Incrementar en un 25% el uso de la función "Progreso"</h3>
                 </div>
               </div>
               
               <div class="smart-criteria">
                 <div class="criteria">
                   <span class="criteria-label">S</span>
-                  <p class="white-text">Subir del 60% a 75% de adopción en usuarios Premium.</p>
+                  <p class="white-text">Subir del 20% a 25% el uso de progreso.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>
-                  <p class="white-text">% de usuarios Premium que usan la función.</p>
+                  <p class="white-text">% de usuarios que usan la función.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">A</span>
@@ -164,7 +164,7 @@
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">R</span>
-                  <p class="white-text">Aumenta la percepción de valor del plan Premium.</p>
+                  <p class="white-text">Aumenta ele valor de esta funcion para los usuarios.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">T</span>
@@ -173,7 +173,7 @@
               </div>
               
               <div class="sources">
-                <div class="kpi-badge">KPI: % de adopción de la función por segmento</div>
+                <div class="kpi-badge">KPI: % aumentar el uso de la funcion "Progreso""</div>
               </div>
             </div>
             
@@ -182,14 +182,14 @@
               <div class="card-header">
                 <div class="title-container">
                   <ion-icon :icon="imageOutline" class="objective-icon"></ion-icon>
-                  <h3 class="white-text">Lograr que al menos el 50% de registros suban imágenes en ejercicios en el primer mes</h3>
+                  <h3 class="white-text">Lograr que al menos el 60% de los registrados suban imagenes de los ejercicios</h3>
                 </div>
               </div>
               
               <div class="smart-criteria">
                 <div class="criteria">
                   <span class="criteria-label">S</span>
-                  <p class="white-text">Del total de nuevos usuarios, el 50% debe usar y subir imágenes.</p>
+                  <p class="white-text">Del total de  usuarios, el 60% subir imágenes.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>
@@ -197,20 +197,20 @@
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">A</span>
-                  <p class="white-text">Con onboarding específico y botón destacado "Sube tu progreso".</p>
+                  <p class="white-text">Con onboarding específico y botón destacado "Sube tu imagenes".</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">R</span>
-                  <p class="white-text">Facilita feedback visual y mejora retención.</p>
+                  <p class="white-text">Facilita feedback visual y asiste en el entrenamiento.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">T</span>
-                  <p class="white-text">En la cohorte de nuevos registros de mayo 2025, medir al 30 de junio.</p>
+                  <p class="white-text">Medir al 30 de junio.</p>
                 </div>
               </div>
               
               <div class="sources">
-                <div class="kpi-badge">KPI: % de nuevos usuarios con imágenes subidas</div>
+                <div class="kpi-badge">KPI: % de usuarios que aprovechan esta funcionalidad</div>
               </div>
             </div>
           </div>
@@ -226,14 +226,14 @@
               <div class="card-header">
                 <div class="title-container">
                   <ion-icon :icon="alertCircleOutline" class="objective-icon"></ion-icon>
-                  <h3 class="white-text">Reducir los errores HTTP 500 a menos de 5 al día</h3>
+                  <h3 class="white-text">Reducir los errores HTTP 500 y 400 a menos de 10 al día</h3>
                 </div>
               </div>
               
               <div class="smart-criteria">
                 <div class="criteria">
                   <span class="criteria-label">S</span>
-                  <p class="white-text">De un promedio de 8 errores diarios a ≤ 5.</p>
+                  <p class="white-text">De un promedio de 8 errores diarios a ≤ 40.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>
@@ -254,7 +254,7 @@
               </div>
               
               <div class="sources">
-                <div class="kpi-badge">KPI: Nº diario de errores 500</div>
+                <div class="kpi-badge">KPI: Nº diario de errores 500 y 400</div>
               </div>
             </div>
             
@@ -299,43 +299,6 @@
             <div class="objective-card glass-card business">
               <div class="card-header">
                 <div class="title-container">
-                  <ion-icon :icon="timeOutline" class="objective-icon"></ion-icon>
-                  <h3 class="white-text">Identificar y documentar las 3 franjas horarias de máximo uso con ≥ 500 sesiones/hora</h3>
-                </div>
-              </div>
-              
-              <div class="smart-criteria">
-                <div class="criteria">
-                  <span class="criteria-label">S</span>
-                  <p class="white-text">Detectar tres bloques horarios diarios con uso alto.</p>
-                </div>
-                <div class="criteria">
-                  <span class="criteria-label">M</span>
-                  <p class="white-text">Sesiones por hora agrupadas por hora del día.</p>
-                </div>
-                <div class="criteria">
-                  <span class="criteria-label">A</span>
-                  <p class="white-text">Con herramienta de analítica y heatmap.</p>
-                </div>
-                <div class="criteria">
-                  <span class="criteria-label">R</span>
-                  <p class="white-text">Permite planificar despliegues y mantenimientos.</p>
-                </div>
-                <div class="criteria">
-                  <span class="criteria-label">T</span>
-                  <p class="white-text">Informe listo el 15 de junio de 2025.</p>
-                </div>
-              </div>
-              
-              <div class="sources">
-                <div class="kpi-badge">KPI: Nº de sesiones por hora</div>
-              </div>
-            </div>
-            
-            <!-- Objetivo 4 -->
-            <div class="objective-card glass-card business">
-              <div class="card-header">
-                <div class="title-container">
                   <ion-icon :icon="warningOutline" class="objective-icon"></ion-icon>
                   <h3 class="white-text">Reducir las incidencias críticas detectadas a menos de 2 por semana</h3>
                 </div>
@@ -345,7 +308,7 @@
               <div class="smart-criteria">
                 <div class="criteria">
                   <span class="criteria-label">S</span>
-                  <p class="white-text">Bajar de un promedio de 4 a ≤ 2 incidencias/semanales.</p>
+                  <p class="white-text">Bajar de un promedio de no mas del 20% incidencias por api.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>
@@ -369,8 +332,9 @@
                 <div class="kpi-badge">KPI: Incidencias críticas/semana</div>
               </div>
             </div>
+
             
-            <!-- Objetivo 5 -->
+            <!-- Objetivo 4 -->
             <div class="objective-card glass-card business">
               <div class="card-header">
                 <div class="title-container">
@@ -386,7 +350,7 @@
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">M</span>
-                  <p class="white-text">Tiempo medio de respuesta recogido por endpoint.</p>
+                  <p class="white-text">Tiempo medio de respuesta recogido por metodo de api rest.</p>
                 </div>
                 <div class="criteria">
                   <span class="criteria-label">A</span>
@@ -404,6 +368,42 @@
               
               <div class="sources">
                 <div class="kpi-badge">KPI: Latencia media (ms) al 95 percentil</div>
+              </div>
+            </div>
+            <!-- Objetivo 5 -->
+            <div class="objective-card glass-card business">
+              <div class="card-header">
+                <div class="title-container">
+                  <ion-icon :icon="speedometerOutline" class="objective-icon"></ion-icon>
+                  <h3 class="white-text">Lograr una relacion carga/horas pico estables</h3>
+                </div>
+              </div>
+              
+              <div class="smart-criteria">
+                <div class="criteria">
+                  <span class="criteria-label">S</span>
+                  <p class="white-text">Adaptar el servidor a las horas pico.</p>
+                </div>
+                <div class="criteria">
+                  <span class="criteria-label">M</span>
+                  <p class="white-text">Carga del servidor en tiempo real.</p>
+                </div>
+                <div class="criteria">
+                  <span class="criteria-label">A</span>
+                  <p class="white-text">Tener listo el hardware necesario para satisfacer la demanda.</p>
+                </div>
+                <div class="criteria">
+                  <span class="criteria-label">R</span>
+                  <p class="white-text">Mejorar y evitar errores de servidor.</p>
+                </div>
+                <div class="criteria">
+                  <span class="criteria-label">T</span>
+                  <p class="white-text">En progreso</p>
+                </div>
+              </div>
+              
+              <div class="sources">
+                <div class="kpi-badge">KPI: Carga del servidor regulada</div>
               </div>
             </div>
           </div>

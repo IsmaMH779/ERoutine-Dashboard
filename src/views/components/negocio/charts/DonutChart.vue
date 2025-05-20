@@ -50,36 +50,33 @@ const donutOptions = ref({
     foreColor: '#ffffff',
   },
   colors: [props.color1, props.color2],
-  labels: [],        // sin etiquetas internas
-  title: {
-    text: 'Rutina semanal cumplida',
-    align: 'center',
-    style: { color: '#ffffff' },
-  },
+  labels: [], // sin etiquetas en sectores
   plotOptions: {
     pie: {
       donut: {
-        size: '0%',
-      },
-    },
+        size: '65%',
+        labels: {
+          show: true,
+          name: { show: false },
+          value: {
+            show: true,
+            fontSize: '36px',
+            fontWeight: 'bold',
+            color: '#FF9B39',
+            formatter: () => 'KPI 70%',
+          },
+          total: { show: false }
+        }
+      }
+    }
   },
   dataLabels: {
-    enabled: true,
-    formatter: (val: number) => val.toFixed(0) + '%',
-    style: { colors: ['#ffffff'] },
+    enabled: false,
   },
   legend: { show: false },
   grid: { show: false },
-  responsive: [
-    {
-      breakpoint: 768,
-      options: {
-        chart: { height: '300px' },
-        title: { style: { fontSize: '14px' } },
-      }
-    }
-  ]
 });
+
 </script>
 
 <style scoped>
